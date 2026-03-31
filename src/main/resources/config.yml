@@ -1,0 +1,14 @@
+health_Amount: 40
+worldName: "free_field"
+Head: "HW2023_FF_Head"
+Chest: "HW2023_FF_Chest"
+Legs: "HW2023_FF_Legs"
+Boots: "HW2023_FF_Boots"
+Head22: "HW2022_FF_Head"
+Chest22: "HW2022_FF_Chest"
+Legs22: "HW2022_FF_Legs"
+Boots22: "HW2022_FF_Boots"
+
+damage_Amount: 120
+worldName2: "dream"
+MainHand: "FFGGR_Ex"
