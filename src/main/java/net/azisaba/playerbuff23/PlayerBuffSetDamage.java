@@ -5,6 +5,8 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.ArrayList;
+
 public class PlayerBuffSetDamage {
 
     public static boolean hasBuffDamage(LivingEntity entity) {
@@ -22,7 +24,7 @@ public class PlayerBuffSetDamage {
     public static void removeDamageAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attr != null) {
-            for(AttributeModifier modifier : attr.getModifiers()) {
+            for(AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
                 if (modifier.getName().equals("PlayerBuff23.SetDamage")) {
                     attr.removeModifier(modifier);
                 }

@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,15 +22,31 @@ import java.util.UUID;
 public class PlayerBuffDuration implements Listener {
 
     private static PlayerBuff23 plugin;
+    private static final Map<String, BukkitTask> BUFF_TASKS = new HashMap<>();
     private static final Map<String, Long> BUFF_EXPIRES_AT = new HashMap<>();
 
     public PlayerBuffDuration(PlayerBuff23 plugin) {
         PlayerBuffDuration.plugin = plugin;
     }
 
-    public static void applyTimedBuff(LivingEntity entity, BuffType buffType, double level, long durationSeconds) {
+    public static void applyTimedBuff(LivingEntity entity, BuffType buffType, double level, long durationSeconds, DurationMode durationMode) {
         if (entity == null || durationSeconds <= 0L) {
             return;
+        }
+
+        UUID uuid = entity.getUniqueId();
+        String key = getBuffKey(uuid, buffType);
+        long now = System.currentTimeMillis();
+        long currentExpiresAt = Math.max(BUFF_EXPIRES_AT.getOrDefault(key, 0L), now);
+        long expiresAt;
+        if (durationMode == DurationMode.REPLACE) {
+            expiresAt = now + (durationSeconds * 1000L);
+        } else {
+            expiresAt = currentExpiresAt + (durationSeconds * 1000L);
+        }
+        BukkitTask previousTask = BUFF_TASKS.remove(key);
+        if (previousTask != null) {
+            previousTask.cancel();
         }
 
         if (hasBuff(entity, buffType)) {
@@ -36,23 +54,40 @@ public class PlayerBuffDuration implements Listener {
         }
         addBuff(entity, buffType, level);
 
-        long durationTicks = durationSeconds * 20L;
-        long expiresAtMillis = System.currentTimeMillis() + (durationSeconds * 1000L);
-        String key = getBuffKey(entity.getUniqueId(), buffType);
+        BUFF_EXPIRES_AT.put(key, expiresAt);
 
-        BUFF_EXPIRES_AT.put(key, expiresAtMillis);
+        BukkitTask task = new BukkitRunnable() {
+            @Override
+            public void run() {
+                LivingEntity target = getLatestEntity(uuid);
+                if (target == null) {
+                    BUFF_TASKS.remove(key);
+                    BUFF_EXPIRES_AT.remove(key);
+                    cancel();
+                    return;
+                }
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Long currentTrackedExpiry = BUFF_EXPIRES_AT.get(key);
-            if (currentTrackedExpiry == null || currentTrackedExpiry.longValue() != expiresAtMillis) {
-                return;
+                Long trackedExpiresAt = BUFF_EXPIRES_AT.get(key);
+                if (trackedExpiresAt == null) {
+                    BUFF_TASKS.remove(key);
+                    cancel();
+                    return;
+                }
+
+                long remainingMillis = trackedExpiresAt - System.currentTimeMillis();
+                if (remainingMillis <= 0L) {
+                    if (hasBuff(target, buffType)) {
+                        removeBuff(target, buffType);
+                    }
+                    BUFF_TASKS.remove(key);
+                    BUFF_EXPIRES_AT.remove(key);
+                    cancel();
+                    return;
+                }
             }
+        }.runTaskTimer(plugin, 0L, 20L);
 
-            if (hasBuff(entity, buffType)) {
-                removeBuff(entity, buffType);
-            }
-            BUFF_EXPIRES_AT.remove(key);
-        }, durationTicks);
+        BUFF_TASKS.put(key, task);
     }
 
     @EventHandler
@@ -70,7 +105,13 @@ public class PlayerBuffDuration implements Listener {
             if (hasBuff(entity, buffType)) {
                 removeBuff(entity, buffType);
             }
-            BUFF_EXPIRES_AT.remove(getBuffKey(entity.getUniqueId(), buffType));
+
+            String key = getBuffKey(entity.getUniqueId(), buffType);
+            BukkitTask task = BUFF_TASKS.remove(key);
+            if (task != null) {
+                task.cancel();
+            }
+            BUFF_EXPIRES_AT.remove(key);
         }
     }
 
@@ -137,6 +178,11 @@ public class PlayerBuffDuration implements Listener {
         return entityId.toString() + ":" + buffType.name();
     }
 
+    private static LivingEntity getLatestEntity(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        return player;
+    }
+
     public enum BuffType {
         HEALTH,
         DAMAGE,
@@ -160,6 +206,26 @@ public class PlayerBuffDuration implements Listener {
                     return TOUGHNESS;
                 case "SPEED":
                     return SPEED;
+                default:
+                    return null;
+            }
+        }
+    }
+
+    public enum DurationMode {
+        ADD,
+        REPLACE;
+
+        public static DurationMode fromString(String mode) {
+            if (mode == null) {
+                return null;
+            }
+
+            switch (mode.toUpperCase()) {
+                case "ADD":
+                    return ADD;
+                case "REPLACE":
+                    return REPLACE;
                 default:
                     return null;
             }

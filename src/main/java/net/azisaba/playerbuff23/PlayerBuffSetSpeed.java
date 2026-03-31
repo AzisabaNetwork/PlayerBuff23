@@ -5,6 +5,8 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.ArrayList;
+
 public class PlayerBuffSetSpeed {
 
     public static boolean hasBuffSpeed(LivingEntity entity) {
@@ -22,7 +24,7 @@ public class PlayerBuffSetSpeed {
     public static void removeSpeedAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         if (attr != null) {
-            for(AttributeModifier modifier : attr.getModifiers()) {
+            for(AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
                 if (modifier.getName().equals("PlayerBuff23.SetSpeed")) {
                     attr.removeModifier(modifier);
                 }

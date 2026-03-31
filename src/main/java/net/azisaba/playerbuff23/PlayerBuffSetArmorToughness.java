@@ -5,6 +5,8 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.ArrayList;
+
 public class PlayerBuffSetArmorToughness {
 
     public static boolean hasBuffArmorToughness(LivingEntity entity) {
@@ -22,7 +24,7 @@ public class PlayerBuffSetArmorToughness {
     public static void removeArmorToughnessAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS);
         if (attr != null) {
-            for(AttributeModifier modifier : attr.getModifiers()) {
+            for (AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
                 if (modifier.getName().equals("PlayerBuff23.SetArmor_Toughness")) {
                     attr.removeModifier(modifier);
                 }

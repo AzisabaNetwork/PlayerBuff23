@@ -23,7 +23,9 @@ public final class PlayerBuff23 extends JavaPlugin {
         this.saveDefaultConfig();
 
         this.getCommand("playerbuff").setExecutor(new PlayerBuffCommand(this));
-        this.getCommand("playerbuffset").setExecutor(new PlayerBuffSetCommand(this));
+        PlayerBuffSetCommand playerBuffSetCommand = new PlayerBuffSetCommand(this);
+        this.getCommand("playerbuffset").setExecutor(playerBuffSetCommand);
+        this.getCommand("playerbuffset").setTabCompleter(playerBuffSetCommand);
         this.getServer().getPluginManager().registerEvents(new PlayerBuffTest(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerBuffDuration(this), this);
         this.getServer().getPluginManager().registerEvents(new WorldDreamTest(this), this);

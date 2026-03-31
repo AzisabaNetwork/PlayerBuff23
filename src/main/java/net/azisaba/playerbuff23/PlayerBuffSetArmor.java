@@ -5,13 +5,17 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.ArrayList;
+
 public class PlayerBuffSetArmor {
 
     public static boolean hasBuffArmor(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ARMOR);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                return modifier.getName().equals("PlayerBuff23.SetArmor");
+                if (modifier.getName().equals("PlayerBuff23.SetArmor")) {
+                    return true;
+                }
             }
         }
         return false;
@@ -20,7 +24,11 @@ public class PlayerBuffSetArmor {
     public static void removeArmorAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ARMOR);
         if (attr != null) {
-            attr.getModifiers().removeIf(modifier -> modifier.getName().equals("PlayerBuff23.SetArmor"));
+            for (AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
+                if (modifier.getName().equals("PlayerBuff23.SetArmor")) {
+                    attr.removeModifier(modifier);
+                }
+            }
         }
     }
 

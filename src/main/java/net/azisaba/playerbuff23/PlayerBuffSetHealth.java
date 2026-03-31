@@ -5,6 +5,8 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.ArrayList;
+
 public class PlayerBuffSetHealth {
 
     public static boolean hasBuffHealth(LivingEntity entity) {
@@ -22,7 +24,7 @@ public class PlayerBuffSetHealth {
     public static void removeHealthAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
-            for(AttributeModifier modifier : attr.getModifiers()) {
+            for(AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
                 if (modifier.getName().equals("PlayerBuff23.SetHealth")) {
                     attr.removeModifier(modifier);
                 }
