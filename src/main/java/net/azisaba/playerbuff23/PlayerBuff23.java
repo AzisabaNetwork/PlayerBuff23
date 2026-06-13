@@ -1,18 +1,18 @@
-package net.azisaba.playerbuff;
+package net.azisaba.playerbuff23;
 
-import net.azisaba.playerbuff.command.PlayerBuffCommand;
-import net.azisaba.playerbuff.command.PlayerBuffSetCommand;
-import net.azisaba.playerbuff.listener.PlayerBuffDuration;
-import net.azisaba.playerbuff.listener.PlayerBuffTest;
-import net.azisaba.playerbuff.listener.WorldDreamSystem;
-import net.azisaba.playerbuff.listener.WorldDreamTest;
+import net.azisaba.playerbuff23.command.PlayerBuffCommand;
+import net.azisaba.playerbuff23.command.PlayerBuffSetCommand;
+import net.azisaba.playerbuff23.listener.PlayerBuffDuration;
+import net.azisaba.playerbuff23.listener.PlayerBuffTest;
+import net.azisaba.playerbuff23.listener.WorldDreamSystem;
+import net.azisaba.playerbuff23.listener.WorldDreamTest;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class PlayerBuff extends JavaPlugin {
+public final class PlayerBuff23 extends JavaPlugin {
 
-    private static PlayerBuff instance;
+    private static PlayerBuff23 instance;
 
-    public static PlayerBuff getInstance() {
+    public static PlayerBuff23 getInstance() {
         return instance;
     }
 
@@ -31,11 +31,11 @@ public final class PlayerBuff extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new WorldDreamTest(this), this);
         this.getServer().getPluginManager().registerEvents(new WorldDreamSystem(this), this);
 
-        this.getLogger().info("PlayerBuff has been enabled.");
+        this.getLogger().info("PlayerBuff23 has been enabled.");
     }
 
     @Override
     public void onDisable() {
-        this.getLogger().info("PlayerBuff has been disabled.");
+        this.getLogger().info("PlayerBuff23 has been disabled.");
     }
 }

@@ -1,6 +1,6 @@
-package net.azisaba.playerbuff.listener;
+package net.azisaba.playerbuff23.listener;
 
-import net.azisaba.playerbuff.PlayerBuff;
+import net.azisaba.playerbuff23.PlayerBuff23;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -14,9 +14,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class WorldDreamSystem implements Listener {
 
-    private final PlayerBuff plugin;
+    private final PlayerBuff23 plugin;
 
-    public WorldDreamSystem(PlayerBuff plugin) {
+    public WorldDreamSystem(PlayerBuff23 plugin) {
         this.plugin = plugin;
     }
 
@@ -65,7 +65,7 @@ public class WorldDreamSystem implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
             for(AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.dream_health_scalar")) {
+                if (modifier.getName().equals("PlayerBuff23.dream_health_scalar")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -76,7 +76,7 @@ public class WorldDreamSystem implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         if (attr != null) {
             for(AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.dream_speed_scalar")) {
+                if (modifier.getName().equals("PlayerBuff23.dream_speed_scalar")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -87,7 +87,7 @@ public class WorldDreamSystem implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.dream_health_scalar")) {
+                if (modifier.getName().equals("PlayerBuff23.dream_health_scalar")) {
                     return true;
                 }
             }
@@ -99,7 +99,7 @@ public class WorldDreamSystem implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.dream_speed_scalar")) {
+                if (modifier.getName().equals("PlayerBuff23.dream_speed_scalar")) {
                     return true;
                 }
             }
@@ -110,14 +110,14 @@ public class WorldDreamSystem implements Listener {
     private void addHealthAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff.dream_health_scalar", 3.0F, AttributeModifier.Operation.ADD_SCALAR));
+            attr.addModifier(new AttributeModifier("PlayerBuff23.dream_health_scalar", 3.0F, AttributeModifier.Operation.ADD_SCALAR));
         }
     }
 
     private void addSpeedAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff.dream_speed_scalar", -0.5F, AttributeModifier.Operation.ADD_SCALAR));
+            attr.addModifier(new AttributeModifier("PlayerBuff23.dream_speed_scalar", -0.5F, AttributeModifier.Operation.ADD_SCALAR));
         }
     }
 }

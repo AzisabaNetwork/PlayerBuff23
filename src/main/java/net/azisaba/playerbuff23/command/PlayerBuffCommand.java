@@ -1,6 +1,6 @@
-package net.azisaba.playerbuff.command;
+package net.azisaba.playerbuff23.command;
 
-import net.azisaba.playerbuff.PlayerBuff;
+import net.azisaba.playerbuff23.PlayerBuff23;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 public class PlayerBuffCommand implements CommandExecutor {
 
-    private final PlayerBuff plugin;
+    private final PlayerBuff23 plugin;
 
-    public PlayerBuffCommand(PlayerBuff plugin) {
+    public PlayerBuffCommand(PlayerBuff23 plugin) {
         this.plugin = plugin;
     }
 

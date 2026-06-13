@@ -1,18 +1,17 @@
-package net.azisaba.playerbuff.listener;
+package net.azisaba.playerbuff23.listener;
 
-import net.azisaba.playerbuff.PlayerBuff;
-import net.azisaba.playerbuff.PlayerBuffSetArmor;
-import net.azisaba.playerbuff.PlayerBuffSetArmorToughness;
-import net.azisaba.playerbuff.PlayerBuffSetDamage;
-import net.azisaba.playerbuff.PlayerBuffSetHealth;
-import net.azisaba.playerbuff.PlayerBuffSetSpeed;
+import net.azisaba.playerbuff23.PlayerBuff23;
+import net.azisaba.playerbuff23.PlayerBuffSetArmor;
+import net.azisaba.playerbuff23.PlayerBuffSetArmorToughness;
+import net.azisaba.playerbuff23.PlayerBuffSetDamage;
+import net.azisaba.playerbuff23.PlayerBuffSetHealth;
+import net.azisaba.playerbuff23.PlayerBuffSetSpeed;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -22,11 +21,11 @@ import java.util.UUID;
 
 public class PlayerBuffDuration implements Listener {
 
-    private static PlayerBuff plugin;
+    private static PlayerBuff23 plugin;
     private static final Map<String, BukkitTask> BUFF_TASKS = new HashMap<>();
     private static final Map<String, Long> BUFF_EXPIRES_AT = new HashMap<>();
 
-    public PlayerBuffDuration(PlayerBuff plugin) {
+    public PlayerBuffDuration(PlayerBuff23 plugin) {
         PlayerBuffDuration.plugin = plugin;
     }
 
@@ -89,12 +88,6 @@ public class PlayerBuffDuration implements Listener {
         }.runTaskTimer(plugin, 0L, 20L);
 
         BUFF_TASKS.put(key, task);
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        clearAllBuffs(player);
     }
 
     @EventHandler

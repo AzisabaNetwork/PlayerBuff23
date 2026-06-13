@@ -1,7 +1,7 @@
-package net.azisaba.playerbuff.listener;
+package net.azisaba.playerbuff23.listener;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import net.azisaba.playerbuff.PlayerBuff;
+import net.azisaba.playerbuff23.PlayerBuff23;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -16,9 +16,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class WorldDreamTest implements Listener {
 
-    private final PlayerBuff plugin;
+    private final PlayerBuff23 plugin;
 
-    public WorldDreamTest(PlayerBuff plugin) {
+    public WorldDreamTest(PlayerBuff23 plugin) {
         this.plugin = plugin;
     }
 
@@ -61,7 +61,7 @@ public class WorldDreamTest implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.temp_attack_damage_number")) {
+                if (modifier.getName().equals("PlayerBuff23.temp_attack_damage_number")) {
                     return true;
                 }
             }
@@ -73,7 +73,7 @@ public class WorldDreamTest implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attr != null) {
             for(AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.temp_attack_damage_number")) {
+                if (modifier.getName().equals("PlayerBuff23.temp_attack_damage_number")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -83,7 +83,7 @@ public class WorldDreamTest implements Listener {
     private void addAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff.temp_attack_damage_number", plugin.getConfig().getDouble("damage_Amount"), AttributeModifier.Operation.ADD_NUMBER));
+            attr.addModifier(new AttributeModifier("PlayerBuff23.temp_attack_damage_number", plugin.getConfig().getDouble("damage_Amount"), AttributeModifier.Operation.ADD_NUMBER));
         }
     }
 }

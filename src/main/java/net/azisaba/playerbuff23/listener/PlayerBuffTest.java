@@ -1,7 +1,7 @@
-package net.azisaba.playerbuff.listener;
+package net.azisaba.playerbuff23.listener;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import net.azisaba.playerbuff.PlayerBuff;
+import net.azisaba.playerbuff23.PlayerBuff23;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -16,9 +16,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerBuffTest implements Listener {
 
-    private final PlayerBuff plugin;
+    private final PlayerBuff23 plugin;
 
-    public PlayerBuffTest(PlayerBuff plugin) {
+    public PlayerBuffTest(PlayerBuff23 plugin) {
         this.plugin = plugin;
     }
 
@@ -85,7 +85,7 @@ public class PlayerBuffTest implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.temp_health_boost_number")) {
+                if (modifier.getName().equals("PlayerBuff23.temp_health_boost_number")) {
                     return true;
                 }
             }
@@ -97,7 +97,7 @@ public class PlayerBuffTest implements Listener {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
             for(AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff.temp_health_boost_number")) {
+                if (modifier.getName().equals("PlayerBuff23.temp_health_boost_number")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -108,7 +108,7 @@ public class PlayerBuffTest implements Listener {
     private void addAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff.temp_health_boost_number", plugin.getConfig().getDouble("health_Amount"), AttributeModifier.Operation.ADD_NUMBER));
+            attr.addModifier(new AttributeModifier("PlayerBuff23.temp_health_boost_number", plugin.getConfig().getDouble("health_Amount"), AttributeModifier.Operation.ADD_NUMBER));
         }
     }
 }

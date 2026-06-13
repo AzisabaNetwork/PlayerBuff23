@@ -1,7 +1,7 @@
-package net.azisaba.playerbuff.command;
+package net.azisaba.playerbuff23.command;
 
-import net.azisaba.playerbuff.PlayerBuff;
-import net.azisaba.playerbuff.listener.PlayerBuffDuration;
+import net.azisaba.playerbuff23.PlayerBuff23;
+import net.azisaba.playerbuff23.listener.PlayerBuffDuration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,9 +22,9 @@ public class PlayerBuffSetCommand implements CommandExecutor, TabCompleter {
     private static final List<String> DURATION_MODES = Arrays.asList("add", "replace");
 
     @SuppressWarnings("unused")
-    private static PlayerBuff plugin;
+    private static PlayerBuff23 plugin;
 
-    public PlayerBuffSetCommand(PlayerBuff plugin) {
+    public PlayerBuffSetCommand(PlayerBuff23 plugin) {
         PlayerBuffSetCommand.plugin = plugin;
     }
 
