@@ -9,13 +9,16 @@ import java.util.ArrayList;
 
 public class PlayerBuffSetSpeed {
 
+    private static final String PREFIX_OLD = "PlayerBuff.SetSpeed";
+    private static final String PREFIX_NEW = "PlayerBuff23.SetSpeed";
+
     public static boolean hasBuffSpeed(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
-        if (attr != null) {
-            for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff23.SetSpeed")) {
-                    return true;
-                }
+        if (attr == null) return false;
+        for (AttributeModifier modifier : attr.getModifiers()) {
+            String name = modifier.getName();
+            if (name.equals(PREFIX_OLD) || name.equals(PREFIX_NEW)) {
+                return true;
             }
         }
         return false;
@@ -23,19 +26,18 @@ public class PlayerBuffSetSpeed {
 
     public static void removeSpeedAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
-        if (attr != null) {
-            for(AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
-                if (modifier.getName().equals("PlayerBuff23.SetSpeed")) {
-                    attr.removeModifier(modifier);
-                }
+        if (attr == null) return;
+        for (AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
+            String name = modifier.getName();
+            if (name.equals(PREFIX_OLD) || name.equals(PREFIX_NEW)) {
+                attr.removeModifier(modifier);
             }
         }
     }
 
     public static void addSpeedAttributes(LivingEntity entity, double amount) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
-        if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff23.SetSpeed", amount, AttributeModifier.Operation.ADD_NUMBER));
-        }
+        if (attr == null) return;
+        attr.addModifier(new AttributeModifier(PREFIX_NEW, amount, AttributeModifier.Operation.ADD_NUMBER));
     }
 }

@@ -65,7 +65,7 @@ public class PlayerBuffSetCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        PlayerBuffDuration.DurationMode durationMode = PlayerBuffDuration.DurationMode.REPLACE;
+        PlayerBuffDuration.DurationMode durationMode = PlayerBuffDuration.DurationMode.ADD;
         if (args.length >= 5) {
             durationMode = PlayerBuffDuration.DurationMode.fromString(args[4]);
             if (durationMode == null) {

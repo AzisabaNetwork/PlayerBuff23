@@ -16,20 +16,24 @@ public class PlayerBuffCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            return true;
+        }
         Player player = (Player) sender;
-        if (!player.hasPermission("playerbuff.command.main")) {
+
+        // Support both permission nodes from the two variants
+        if (!player.hasPermission("playerbuff.command.main") && !player.hasPermission("playerbuff.command.reload")) {
             player.sendMessage(ChatColor.RED + "You don't have permission.");
             return true;
         }
 
-        if (args.length < 1) {
-            player.sendMessage(ChatColor.RED + "Usage: /playerbuff <subcommand>");
+        if (args.length == 0 || (args.length == 1 && args[0].equalsIgnoreCase("reload"))) {
+            plugin.reloadConfig();
+            player.sendMessage(ChatColor.GREEN + "コンフィグをリロードしました。");
+            return true;
         }
 
-        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            plugin.reloadConfig();
-            player.sendMessage(ChatColor.GREEN + "Configuration reloaded.");
-        }
-        return false;
+        player.sendMessage(ChatColor.RED + "Usage: /playerbuff reload");
+        return true;
     }
 }

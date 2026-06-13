@@ -14,7 +14,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 public class PlayerBuffTest implements Listener {
+
+    private static final String TEMP_HEALTH_MODIFIER_OLD = "PlayerBuff.temp_health_boost_number";
+    private static final String TEMP_HEALTH_MODIFIER_NEW = "PlayerBuff23.temp_health_boost_number";
 
     private final PlayerBuff23 plugin;
 
@@ -25,48 +30,55 @@ public class PlayerBuffTest implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         LivingEntity entity = event.getPlayer();
-        if (this.hasTempHealth(entity)) {
+        if (hasTempHealth(entity)) {
             removeAttributes(entity);
         }
-
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         LivingEntity entity = event.getPlayer();
         World world = entity.getWorld();
-        String world1 = plugin.getConfig().getString("worldName");
-        ItemStack itemStack = entity.getEquipment().getHelmet();
-        ItemStack itemStack1 = entity.getEquipment().getChestplate();
-        ItemStack itemStack2 = entity.getEquipment().getLeggings();
-        ItemStack itemStack3 = entity.getEquipment().getBoots();
-        ItemStack mythicItem = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Head", "HW2023_FF_Head"));
-        ItemStack mythicItem1 = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Chest", "HW2023_FF_Chest"));
-        ItemStack mythicItem2 = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Legs", "HW2023_FF_Legs"));
-        ItemStack mythicItem3 = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Boots", "HW2023_FF_Boots"));
-        ItemStack mythicItem22 = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Head22", "HW2022_FF_Head"));
-        ItemStack mythicItem221 = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Chest22", "HW2022_FF_Chest"));
-        ItemStack mythicItem222 = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Legs22", "HW2022_FF_Legs"));
-        ItemStack mythicItem223 = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Boots22", "HW2022_FF_Boots"));
-        if (world1 != null && world.getName().equals(world1)) {
-            if (entity.getEquipment() == null && world.getName().equals(world1)) {
-                removeAttributes(entity);
+        String worldName = plugin.getConfig().getString("worldName");
+        if (worldName == null || !world.getName().equals(worldName)) return;
+
+        ItemStack helmet = Objects.requireNonNull(entity.getEquipment()).getHelmet();
+        ItemStack chestplate = entity.getEquipment().getChestplate();
+        ItemStack leggings = entity.getEquipment().getLeggings();
+        ItemStack boots = entity.getEquipment().getBoots();
+
+        // HW2023 items
+        ItemStack hw23Helmet = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Head", "HW2023_FF_Head"));
+        ItemStack hw23Chest = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Chest", "HW2023_FF_Chest"));
+        ItemStack hw23Legs = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Legs", "HW2023_FF_Legs"));
+        ItemStack hw23Boots = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Boots", "HW2023_FF_Boots"));
+
+        // HW2022 items
+        ItemStack hw22Helmet = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Head22", "HW2022_FF_Head"));
+        ItemStack hw22Chest = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Chest22", "HW2022_FF_Chest"));
+        ItemStack hw22Legs = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Legs22", "HW2022_FF_Legs"));
+        ItemStack hw22Boots = MythicMobs.inst().getItemManager().getItemStack(plugin.getConfig().getString("Boots22", "HW2022_FF_Boots"));
+
+        // Check if any equipped piece matches HW2022 (individual piece = get buff)
+        boolean hasHw22Piece = hw22Helmet.isSimilar(helmet) || hw22Chest.isSimilar(chestplate)
+            || hw22Legs.isSimilar(leggings) || hw22Boots.isSimilar(boots);
+
+        // Check HW2023 mixed set: one piece HW2023, other pieces NOT HW2022
+        boolean hasHw23Set = (hw23Helmet.isSimilar(helmet) && !hw22Chest.isSimilar(chestplate)
+                && !hw22Legs.isSimilar(leggings) && !hw22Boots.isSimilar(boots))
+            || (hw23Chest.isSimilar(chestplate) && !hw22Helmet.isSimilar(helmet)
+                && !hw22Legs.isSimilar(leggings) && !hw22Boots.isSimilar(boots))
+            || (hw23Legs.isSimilar(leggings) && !hw22Helmet.isSimilar(helmet)
+                && !hw22Chest.isSimilar(chestplate) && !hw22Boots.isSimilar(boots))
+            || (hw23Boots.isSimilar(boots) && !hw22Helmet.isSimilar(helmet)
+                && !hw22Chest.isSimilar(chestplate) && !hw22Legs.isSimilar(leggings));
+
+        if (!hasTempHealth(entity)) {
+            if (hasHw22Piece || hasHw23Set) {
+                addAttributes(entity);
             }
-            if (!mythicItem.isSimilar(itemStack) || mythicItem1.isSimilar(itemStack1) || mythicItem2.isSimilar(itemStack2) || mythicItem3.isSimilar(itemStack3) || !world.getName().equals(world1)) {
-                removeAttributes(entity);
-            }
-            if (!this.hasTempHealth(entity) && world.getName().equals(world1) && mythicItem.isSimilar(itemStack) && !mythicItem221.isSimilar(itemStack1) && !mythicItem222.isSimilar(itemStack2) && !mythicItem223.isSimilar(itemStack3)) {
-                this.addAttributes(entity);
-            }
-            if (!this.hasTempHealth(entity) && world.getName().equals(world1) && mythicItem1.isSimilar(itemStack1) && !mythicItem22.isSimilar(itemStack) && !mythicItem222.isSimilar(itemStack2) && !mythicItem223.isSimilar(itemStack3)) {
-                this.addAttributes(entity);
-            }
-            if (!this.hasTempHealth(entity) && world.getName().equals(world1) && mythicItem2.isSimilar(itemStack2) && !mythicItem22.isSimilar(itemStack) && !mythicItem221.isSimilar(itemStack1) && !mythicItem223.isSimilar(itemStack3)) {
-                this.addAttributes(entity);
-            }
-            if (!this.hasTempHealth(entity) && world.getName().equals(world1) && mythicItem3.isSimilar(itemStack3) && !mythicItem22.isSimilar(itemStack) && !mythicItem221.isSimilar(itemStack1) && !mythicItem222.isSimilar(itemStack2)) {
-                this.addAttributes(entity);
-            }
+        } else if (!hasHw22Piece && !hasHw23Set) {
+            removeAttributes(entity);
         }
     }
 
@@ -75,19 +87,18 @@ public class PlayerBuffTest implements Listener {
         LivingEntity entity = event.getPlayer();
         World world = entity.getWorld();
         String world1 = plugin.getConfig().getString("worldName");
-        if (!world.getName().equals(world1) && this.hasTempHealth(entity)) {
+        if (!world.getName().equals(world1) && hasTempHealth(entity)) {
             removeAttributes(entity);
         }
-
     }
 
-    private boolean hasTempHealth(LivingEntity entity) {
+    private static boolean hasTempHealth(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        if (attr != null) {
-            for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff23.temp_health_boost_number")) {
-                    return true;
-                }
+        if (attr == null) return false;
+        for (AttributeModifier modifier : attr.getModifiers()) {
+            String name = modifier.getName();
+            if (name.equals(TEMP_HEALTH_MODIFIER_OLD) || name.equals(TEMP_HEALTH_MODIFIER_NEW)) {
+                return true;
             }
         }
         return false;
@@ -95,20 +106,18 @@ public class PlayerBuffTest implements Listener {
 
     private static void removeAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        if (attr != null) {
-            for(AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff23.temp_health_boost_number")) {
-                    attr.removeModifier(modifier);
-                }
+        if (attr == null) return;
+        for (AttributeModifier modifier : attr.getModifiers()) {
+            String name = modifier.getName();
+            if (name.equals(TEMP_HEALTH_MODIFIER_OLD) || name.equals(TEMP_HEALTH_MODIFIER_NEW)) {
+                attr.removeModifier(modifier);
             }
         }
-
     }
 
     private void addAttributes(LivingEntity entity) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff23.temp_health_boost_number", plugin.getConfig().getDouble("health_Amount"), AttributeModifier.Operation.ADD_NUMBER));
-        }
+        if (attr == null) return;
+        attr.addModifier(new AttributeModifier(TEMP_HEALTH_MODIFIER_NEW, plugin.getConfig().getDouble("health_Amount"), AttributeModifier.Operation.ADD_NUMBER));
     }
 }
