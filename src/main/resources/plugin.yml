@@ -1,7 +1,7 @@
 name: PlayerBuff23
-version: '${version}'
+version: "${version}"
 main: net.azisaba.playerbuff23.PlayerBuff23
-api-version: '1.15'
+api-version: "1.15"
 authors: [Azisaba Network]
 
 commands:
