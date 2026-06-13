@@ -1,4 +1,4 @@
-package net.azisaba.playerbuff23;
+package net.azisaba.playerbuff;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,7 +13,7 @@ public class PlayerBuffSetSpeed {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff23.SetSpeed")) {
+                if (modifier.getName().equals("PlayerBuff.SetSpeed")) {
                     return true;
                 }
             }
@@ -25,7 +25,7 @@ public class PlayerBuffSetSpeed {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         if (attr != null) {
             for(AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
-                if (modifier.getName().equals("PlayerBuff23.SetSpeed")) {
+                if (modifier.getName().equals("PlayerBuff.SetSpeed")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -35,7 +35,7 @@ public class PlayerBuffSetSpeed {
     public static void addSpeedAttributes(LivingEntity entity, double amount) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff23.SetSpeed", amount, AttributeModifier.Operation.ADD_NUMBER));
+            attr.addModifier(new AttributeModifier("PlayerBuff.SetSpeed", amount, AttributeModifier.Operation.ADD_NUMBER));
         }
     }
 }

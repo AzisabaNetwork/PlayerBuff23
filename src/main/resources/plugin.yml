@@ -1,12 +1,12 @@
-name: PlayerBuff23
+name: PlayerBuff
 version: '${version}'
-main: net.azisaba.playerbuff23.PlayerBuff23
+main: net.azisaba.playerbuff.PlayerBuff
 api-version: '1.15'
 authors: [ Azisaba Network ]
 
 commands:
   playerbuff:
-    description: PlayerBuff23 main command
+    description: PlayerBuff main command
     permission: playerbuff.command.main
   playerbuffset:
     description: PlayerBuff set command
@@ -17,14 +17,14 @@ commands:
 
 permissions:
   playerbuff.command.*:
-    description: Permission to use PlayerBuff23 commands
+    description: Permission to use PlayerBuff commands
     children:
       playerbuff.command.main: true
       playerbuff.command.set: true
     default: op
   playerbuff.command.main:
-    description: Permission to use PlayerBuff23 main command
+    description: Permission to use PlayerBuff main command
     default: op
   playerbuff.command.set:
-    description: Permission to set PlayerBuff23
+    description: Permission to set PlayerBuff
     default: op

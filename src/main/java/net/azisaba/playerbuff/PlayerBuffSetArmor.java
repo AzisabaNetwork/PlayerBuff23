@@ -1,4 +1,4 @@
-package net.azisaba.playerbuff23;
+package net.azisaba.playerbuff;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,7 +13,7 @@ public class PlayerBuffSetArmor {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ARMOR);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff23.SetArmor")) {
+                if (modifier.getName().equals("PlayerBuff.SetArmor")) {
                     return true;
                 }
             }
@@ -25,7 +25,7 @@ public class PlayerBuffSetArmor {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ARMOR);
         if (attr != null) {
             for (AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
-                if (modifier.getName().equals("PlayerBuff23.SetArmor")) {
+                if (modifier.getName().equals("PlayerBuff.SetArmor")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -35,7 +35,7 @@ public class PlayerBuffSetArmor {
     public static void addArmorAttributes(LivingEntity entity, double amount) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ARMOR);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff23.SetArmor", amount, AttributeModifier.Operation.ADD_NUMBER));
+            attr.addModifier(new AttributeModifier("PlayerBuff.SetArmor", amount, AttributeModifier.Operation.ADD_NUMBER));
         }
     }
 }

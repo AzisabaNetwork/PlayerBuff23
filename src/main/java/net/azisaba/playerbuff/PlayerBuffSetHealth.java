@@ -1,4 +1,4 @@
-package net.azisaba.playerbuff23;
+package net.azisaba.playerbuff;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,7 +13,7 @@ public class PlayerBuffSetHealth {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff23.SetHealth")) {
+                if (modifier.getName().equals("PlayerBuff.SetHealth")) {
                     return true;
                 }
             }
@@ -25,7 +25,7 @@ public class PlayerBuffSetHealth {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
             for(AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
-                if (modifier.getName().equals("PlayerBuff23.SetHealth")) {
+                if (modifier.getName().equals("PlayerBuff.SetHealth")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -35,7 +35,7 @@ public class PlayerBuffSetHealth {
     public static void addHealthAttributes(LivingEntity entity, double amount) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff23.SetHealth", amount, AttributeModifier.Operation.ADD_NUMBER));
+            attr.addModifier(new AttributeModifier("PlayerBuff.SetHealth", amount, AttributeModifier.Operation.ADD_NUMBER));
         }
     }
 }

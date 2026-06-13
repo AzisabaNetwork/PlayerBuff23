@@ -1,4 +1,4 @@
-package net.azisaba.playerbuff23;
+package net.azisaba.playerbuff;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,7 +13,7 @@ public class PlayerBuffSetDamage {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attr != null) {
             for (AttributeModifier modifier : attr.getModifiers()) {
-                if (modifier.getName().equals("PlayerBuff23.SetDamage")) {
+                if (modifier.getName().equals("PlayerBuff.SetDamage")) {
                     return true;
                 }
             }
@@ -25,7 +25,7 @@ public class PlayerBuffSetDamage {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attr != null) {
             for(AttributeModifier modifier : new ArrayList<>(attr.getModifiers())) {
-                if (modifier.getName().equals("PlayerBuff23.SetDamage")) {
+                if (modifier.getName().equals("PlayerBuff.SetDamage")) {
                     attr.removeModifier(modifier);
                 }
             }
@@ -35,7 +35,7 @@ public class PlayerBuffSetDamage {
     public static void addDamageAttributes(LivingEntity entity, double amount) {
         AttributeInstance attr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         if (attr != null) {
-            attr.addModifier(new AttributeModifier("PlayerBuff23.SetDamage", amount, AttributeModifier.Operation.ADD_NUMBER));
+            attr.addModifier(new AttributeModifier("PlayerBuff.SetDamage", amount, AttributeModifier.Operation.ADD_NUMBER));
         }
     }
 }
